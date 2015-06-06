@@ -1,12 +1,11 @@
-package app.trains
+package ru.trains.api
 
 import java.net.URL
 
-
+import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 import scala.io.Source
-import scala.concurrent.ExecutionContext.Implicits.global
-import scala.util.parsing.json.{JSONObject, JSON, JSONArray}
+import scala.util.parsing.json.{JSON, JSONArray, JSONObject}
 
 object TutuApi extends Api {
   private def mapStation(jsonObject: JSONObject) = Station(jsonObject.obj("value").asInstanceOf[String], jsonObject.obj("label").asInstanceOf[String])

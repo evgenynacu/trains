@@ -1,4 +1,4 @@
-package app.trains
+package ru.trains.api
 
 import org.junit.Test
 
