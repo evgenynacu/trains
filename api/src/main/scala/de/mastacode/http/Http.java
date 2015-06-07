@@ -592,7 +592,9 @@ public final class Http {
                 }
                 builder.append(d.getName()).append("=").append(URLEncoder.encode(d.getValue(), "UTF-8"));
             }
-            return new HttpGet(builder.toString());
+            String result = builder.toString();
+            System.out.println(result);
+            return new HttpGet(result);
         }
 
     }
