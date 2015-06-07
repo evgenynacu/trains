@@ -4,6 +4,7 @@ import junit.framework.TestCase
 
 import scala.concurrent.Await
 import scala.concurrent.duration._
+import scala.language.postfixOps
 
 class RzdApiTest extends TestCase {
    def testSuggest(): Unit = {

@@ -32,4 +32,6 @@ object RzdApi extends Api {
   } else {
     suggest(name.trim.substring(0, 2).toUpperCase).map(_.filter(_.name.contains(name.toUpperCase)))
   }
+
+  override def getTimetable(from: Station, to: Station): Future[List[Thread]] = ???
 }
