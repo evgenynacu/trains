@@ -1,32 +1,24 @@
 package app.trains
 
-import android.database.Cursor
-import android.provider.ContactsContract.Contacts
-import android.support.v7.widget.{LinearLayoutManager, RecyclerView}
-import android.view.ViewGroup
-import android.widget.TextView
-import app.trains.adapter.{AdapterRenderer, SignalSeqAdapter}
+import android.widget.LinearLayout
 import reactive.android.app.ReactiveActivity
-import reactive.android.content.{ContentDescriptor, CursorSignal, RichCursor}
-import reactive.{Observing, Val}
+import reactive.android.widget.ReactiveAutoComplete
+import reactive.{Observing, Var}
+import ru.trains.api.{RzdApi, Station}
+
+import scala.concurrent.Await
+import scala.concurrent.duration.Duration
 
 class MainActivity extends ReactiveActivity with Observing {
-  lazy val rv = findViewById(R.id.rv).asInstanceOf[RecyclerView]
-  val descriptor = ContentDescriptor(Contacts.CONTENT_URI, Array("display_name"), null, null)
-  lazy val signal = new CursorSignal(Val(descriptor), this, 0, getLoaderManager).map(_.map(c => RichCursor.cursorToRich(c)))
+  lazy val main = findViewById(R.id.main).asInstanceOf[LinearLayout]
+  val vStation = Var[Option[Station]](None)
+
+  def autocomplete(s:String) = Await.result(RzdApi.searchStation(s), Duration.Inf)
 
   for (e <- eCreate) {
     setContentView(R.layout.main)
-    rv.setLayoutManager(new LinearLayoutManager(this))
-    rv.setAdapter(new SignalSeqAdapter[Cursor, ViewHolder](signal, renderer))
-  }
-
-  object renderer extends AdapterRenderer[Cursor, ViewHolder] {
-    def onBindViewHolder(holder: ViewHolder, value: Cursor) = holder.tv.setText(value.getString(0))
-
-    def onCreateViewHolder(parent: ViewGroup, viewType: Int) = ViewHolder(new TextView(MainActivity.this))
+    main.addView(new ReactiveAutoComplete[Station](vStation)(autocomplete)(R.layout.list_item, R.id.autoCompleteItem))
   }
 }
 
-case class ViewHolder(tv: TextView) extends RecyclerView.ViewHolder(tv)
 

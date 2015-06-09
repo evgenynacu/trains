@@ -27,10 +27,12 @@ object RzdApi extends Api {
     if (cache.containsKey(search)) {
       Promise.successful(cache.get(search)).future
     } else Future {
-      JSON.parseRaw(Http.get("http://pass.rzd.ru/suggester").use(client).data("lang", "ru").data("lat", "0").data("compactMode", "y").data("stationNamePart", search).asString())
+      val result = JSON.parseRaw(Http.get("http://pass.rzd.ru/suggester").use(client).data("lang", "ru").data("lat", "0").data("compactMode", "y").data("stationNamePart", search).asString())
         .get.asInstanceOf[JSONArray].list.map {
         case item:JSONObject => Station(item.obj("c").asInstanceOf[Double].toInt.toString, item.obj("n").asInstanceOf[String])
       }
+      cache.put(search, result)
+      result
     }
 
   override def searchStation(name: String) = if(name == null || name.trim.length < 2) {
