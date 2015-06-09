@@ -5,8 +5,8 @@ import java.util.Date
 import scala.concurrent.Future
 
 trait Api {
-  def searchStation(name: String):Future[List[Station]]
-  def getTimetable(from: Station, to:Station):Future[List[Thread]]
+  def searchStation(name: String):Future[Seq[Station]]
+  def getTimetable(from: Station, to:Station):Future[Seq[Thread]]
 }
 
 case class Station(id: String, name: String) {

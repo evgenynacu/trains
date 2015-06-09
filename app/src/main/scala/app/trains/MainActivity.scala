@@ -1,6 +1,6 @@
 package app.trains
 
-import android.widget.LinearLayout
+import android.widget.{TextView, LinearLayout}
 import reactive.android.app.ReactiveActivity
 import reactive.android.widget.ReactiveAutoComplete
 import reactive.{Observing, Var}
@@ -18,6 +18,12 @@ class MainActivity extends ReactiveActivity with Observing {
   for (e <- eCreate) {
     setContentView(R.layout.main)
     main.addView(new ReactiveAutoComplete[Station](vStation)(autocomplete)(R.layout.list_item, R.id.autoCompleteItem))
+
+    val tv: TextView = new TextView(this)
+    main.addView(tv)
+    for(v <- vStation) {
+      v.foreach(s => tv.setText(s.id))
+    }
   }
 }
 

@@ -39,5 +39,9 @@
             <artifactId>httpclient</artifactId>
             <version>4.0-beta1</version>
         </dependency>
+        <dependency>
+            <groupId>org.json</groupId>
+            <artifactId>json</artifactId>
+        </dependency>
 	</dependencies>
 </project>
