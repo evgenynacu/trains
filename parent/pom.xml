@@ -19,7 +19,7 @@
         <android.version>4.0.1.2</android.version>
         <scala.version.major>2.10</scala.version.major>
         <scala.version>2.10.3</scala.version>
-        <support.library.version>22.1.1</support.library.version>
+        <support.library.version>22.2.0</support.library.version>
     </properties>
     <build>
         <pluginManagement>
